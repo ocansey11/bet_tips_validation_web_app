@@ -16,7 +16,7 @@ def previous():
 @standings_bp.route('/current', methods=['GET'])
 def current():
     try:
-        standings_scrapper(cls_table_name,url_sofascore,sofascore_className, user,password,host,port,dbname)
+        standings_scrapper(cls_table_name,url_sofascore,sofascore_className,user,password,host,port,dbname)
         return jsonify({'message': 'Scraping completed and data stored successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
