@@ -7,8 +7,26 @@
   </head>
   <body>
     <h1>Admin Page</h1>
+    <p>Click the buttons below to update the standings.</p>
+
+    <form action="{{ url_for('standings.previous') }}" method="get">
+      <button type="submit">Update Previous Standings</button>
+    </form>
+
+    <form action="{{ url_for('standings.current') }}" method="get">
+      <button type="submit">Update Current Standings</button>
+    </form>
+
+    <form action="{{ url_for('matches.completed') }}" method="get">
+      <button type="submit">Update Completed Matches</button>
+    </form>
+
+    <form action="{{ url_for('matches.upcoming') }}" method="get">
+      <button type="submit">Update Upcoming Matches</button>
+    </form>
+
     <p>Click the button below to create all database tables.</p>
-    <form action="{{ url_for('admin.create_tables') }}">
+    <form action="{{ url_for('admin.create_tables') }}" method="get">
       <button type="submit">Create Tables</button>
     </form>
   </body>
