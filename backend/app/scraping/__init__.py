@@ -18,3 +18,5 @@ dbname = "bet_model_testing"
 # DATABASE VARIABLES FOR STANDINGS
 pls_table_name = "current_week_league_standings"
 cls_table_name = "previous_week_league_standings"
+
+
