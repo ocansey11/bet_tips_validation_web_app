@@ -2,8 +2,7 @@ from .completed_matches import main as cm_scrapper
 from .upcoming_matches import main as um_scrapper
 from .league_standings import main as standings_scrapper
 url_forebet = 'https://www.forebet.com/en/football-tips-and-predictions-for-england/premier-league'
-url_sofascore = 'https://www.sofascore.com/tournament/football/england/premier-league/17#id:52186'
-
+url_sofascore = 'https://www.sofascore.com/tournament/football/england/premier-league/17#id:61627'
 # CLASSNAMES
 sofascore_className = "eHXJll"
 forebet_className = "schema"

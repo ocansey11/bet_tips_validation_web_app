@@ -78,12 +78,33 @@ def main( table_name,url,className, user,password,host,port,dbname ):
         # Creating DataFrame
         premier_league_columns = ['Pos', 'Team', 'Pld', 'Wins', 'Draws', 'Losses', 'GF', 'GA', 'Last 5 Matches', 'Ppg_Last_5_Matches', 'Points']
         team_labels = {
-            'Arsenal': 1, 'Aston Villa': 2, 'Bournemouth': 3, 'Brighton': 4, 'Burnley': 5,
-            'Chelsea': 6, 'Crystal Palace': 7, 'Everton': 8, 'Fulham': 9, 'Leeds Utd': 10,
-            'Leicester City': 11, 'Liverpool': 12, 'Man City': 13, 'Man Utd': 14, 'Newcastle': 15,
-            'Norwich': 16, 'Sheffield': 17, 'Southampton': 18, 'Tottenham': 19, 'West Ham': 20,
-            'Luton': 21, 'Wolves': 22, 'Brentford': 23, 'Sheffield Utd': 24, 'Forest': 25
-        }
+        'Arsenal': 1,
+        'Aston Villa': 2,
+        'Bournemouth': 3,
+        'Brighton': 4,
+        'Burnley': 5,
+        'Chelsea': 6,
+        'Crystal Palace': 7,
+        'Everton': 8,
+        'Fulham': 9,
+        'Ipswich': 10,
+        'Leeds Utd': 11,
+        'Leicester City': 12,
+        'Liverpool': 13,
+        'Man City': 14,
+        'Man Utd': 15,
+        'Newcastle': 16,
+        'Norwich': 17,
+        'Sheffield': 18,
+        'Southampton': 19,
+        'Tottenham': 20,
+        'West Ham': 21,
+        'Luton': 22,
+        'Wolves': 23,
+        'Brentford': 24,
+        'Sheffield Utd': 25,
+        'Forest': 26
+    }
         premier_league_table = create_dataframe(processed_data, premier_league_columns, team_labels)
 
         # Database Connection and Insertion

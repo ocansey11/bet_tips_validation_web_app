@@ -22,7 +22,6 @@ def scrape_upcoming_matches(driver, url, className):
     match_fixture_containers = driver.find_elements("class name", className)
     fixtures_container = [fixture.text for fixture in match_fixture_containers]
 
-    driver.quit()
     return fixtures_container
 
 
@@ -65,20 +64,40 @@ def format_data(upcoming_matches):
 def preprocess_data(df_upcoming_matches, um_weekly_round):
     logging.info("Preprocessing match data.")
     team_labels = {
-        'Arsenal': 1, 'Aston Villa': 2, 'Bournemouth': 3, 'Brighton': 4, 'Burnley': 5, 'Chelsea': 6,
-        'Crystal Palace': 7, 'Everton': 8, 'Fulham': 9, 'Leeds United': 10, 'Leicester City': 11,
-        'Liverpool': 12, 'Manchester City': 13, 'Manchester United': 14, 'Newcastle United': 15,
-        'Norwich City': 16, 'Sheffield United': 17, 'Southampton': 18, 'Tottenham': 19, 'West Ham': 20,
-        'Luton Town': 21, 'Wolverhampton': 22, 'Brentford': 23, 'Nottingham Forest': 24
+        'Arsenal': 1,
+        'Aston Villa': 2,
+        'Bournemouth': 3,
+        'Brighton': 4,
+        'Burnley': 5,
+        'Chelsea': 6,
+        'Crystal Palace': 7,
+        'Everton': 8,
+        'Fulham': 9,
+        'Ipswich Town':10,
+        'Leeds United': 11,
+        'Leicester City': 12,
+        'Liverpool': 13,
+        'Manchester City': 14,
+        'Manchester United': 15,
+        'Newcastle United': 16,
+        'Norwich City': 17,
+        'Sheffield United': 18,
+        'Southampton': 19,
+        'Tottenham': 20,
+        'West Ham': 21,
+        'Luton Town': 22,
+        'Wolverhampton': 23,
+        'Brentford': 24,
+        'Sheffield United': 25,
+        'Nottingham Forest': 26
     }
-
     def team_to_label(team_name):
         return team_labels.get(team_name)
 
     df_upcoming_matches['home'] = df_upcoming_matches['home'].map(team_to_label)
     df_upcoming_matches['away'] = df_upcoming_matches['away'].map(team_to_label)
-    df_upcoming_matches[['date', 'time']] = df_upcoming_matches['date and time'].str.split(' ', expand=True)
-    df_upcoming_matches.drop(columns=['date and time'], inplace=True)
+    df_upcoming_matches[['date', 'time']] = df_upcoming_matches['date_and_time'].str.split(' ', expand=True)
+    # df_upcoming_matches.drop(columns=['date and time'], inplace=True)
     df_upcoming_matches[['home_team_score_prediction', 'away_team_score_prediction']] = df_upcoming_matches['scoreline_prediction'].str.split('-', expand=True)
     df_upcoming_matches['home_team_score_prediction'] = df_upcoming_matches['home_team_score_prediction'].astype(int)
     df_upcoming_matches['away_team_score_prediction'] = df_upcoming_matches['away_team_score_prediction'].astype(int)

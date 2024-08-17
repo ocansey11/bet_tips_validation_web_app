@@ -54,7 +54,7 @@ def clean_and_process_data(fixtures_container):
     completed_matches = [replace_completed_matches(match) for match in completed_matches]
     completed_matches_split = [match.split('\n') for match in completed_matches]
 
-    df_columns_completed_matches = ['', 'home', 'away', 'date and time', 'home_win_probability', 'draw_probability',
+    df_columns_completed_matches = ['', 'home', 'away', 'date_and_time', 'home_win_probability', 'draw_probability',
                                     'away_win_probability', 'team_to_win_prediction', 'scoreline_prediction',
                                     'average_goals_prediction', 'weather_in_degrees', 'odds', 'full_time_score',
                                     'score_at_halftime', "kelly_criterion"]
@@ -81,22 +81,23 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round):
         'Crystal Palace': 7,
         'Everton': 8,
         'Fulham': 9,
-        'Leeds United': 10,
-        'Leicester City': 11,
-        'Liverpool': 12,
-        'Manchester City': 13,
-        'Manchester United': 14,
-        'Newcastle United': 15,
-        'Norwich City': 16,
-        'Sheffield United': 17,
-        'Southampton': 18,
-        'Tottenham': 19,
-        'West Ham': 20,
-        'Luton Town': 21,
-        'Wolverhampton': 22,
-        'Brentford': 23,
-        'Sheffield United': 24,
-        'Nottingham Forest': 25
+        'Ipswich Town':10,
+        'Leeds United': 11,
+        'Leicester City': 12,
+        'Liverpool': 13,
+        'Manchester City': 14,
+        'Manchester United': 15,
+        'Newcastle United': 16,
+        'Norwich City': 17,
+        'Sheffield United': 18,
+        'Southampton': 19,
+        'Tottenham': 20,
+        'West Ham': 21,
+        'Luton Town': 22,
+        'Wolverhampton': 23,
+        'Brentford': 24,
+        'Sheffield United': 25,
+        'Nottingham Forest': 26
     }
 
     def team_to_label(team_name):
@@ -105,8 +106,8 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round):
     df_completed_matches['home'] = df_completed_matches['home'].map(team_to_label)
     df_completed_matches['away'] = df_completed_matches['away'].map(team_to_label)
 
-    df_completed_matches[['date', 'time']] = df_completed_matches['date and time'].str.split(' ', expand=True)
-    df_completed_matches.drop(columns=['date and time'], inplace=True)
+    df_completed_matches[['date', 'time']] = df_completed_matches['date_and_time'].str.split(' ', expand=True)
+    # df_completed_matches.drop(columns=['date and time'], inplace=True)
 
     df_completed_matches[['home_team_score_prediction', 'away_team_score_prediction']] = \
         df_completed_matches['scoreline_prediction'].str.split('-', expand=True).astype(int)
