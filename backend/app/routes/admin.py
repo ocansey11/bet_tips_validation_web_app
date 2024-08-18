@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for # type: ignore
 from app.utils import db
-from app.models import CompletedMatches, CurrentWeekLeagueStandings, PreviousWeekLeagueStandings, TestingData, TrainingData, UpcomingMatches  # Import your models ereh
+from app.models import *
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -12,3 +12,9 @@ def admin_home():
 def create_tables():
     db.create_all()
     return redirect(url_for('admin.admin_home'))
+    # with current_app.app_context():  # Ensure we're in the app context
+    #     db.create_all()
+    # return redirect(url_for('admin.admin_home'))
+
+
+
