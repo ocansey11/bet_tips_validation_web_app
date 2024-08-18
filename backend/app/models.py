@@ -6,6 +6,7 @@ class CompletedMatches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     home = db.Column(db.String(100))
     away = db.Column(db.String(100))
+    date_and_time = db.Column(db.String(50))
     home_win_probability = db.Column(db.Float)
     draw_probability = db.Column(db.Float)
     away_win_probability = db.Column(db.Float)
@@ -27,6 +28,29 @@ class CompletedMatches(db.Model):
     day_of_week = db.Column(db.Integer)
     month = db.Column(db.Integer)
     weekly_round = db.Column(db.BigInteger)
+
+
+class UpcomingMatches(db.Model):
+    __tablename__ = 'upcoming_matches'
+    id = db.Column(db.Integer, primary_key=True)
+    home = db.Column(db.Integer)
+    away = db.Column(db.Integer)
+    date_and_time = db.Column(db.String(50))
+    home_win_probability = db.Column(db.Float)
+    draw_probability = db.Column(db.Float)
+    away_win_probability = db.Column(db.Float)
+    team_to_win_prediction = db.Column(db.Integer)
+    scoreline_prediction = db.Column(db.String(100))
+    average_goals_prediction = db.Column(db.Float)
+    weather_in_degrees = db.Column(db.String(50))
+    odds = db.Column(db.Float)
+    date = db.Column(db.DateTime)
+    time = db.Column(db.Time)
+    home_team_score_prediction = db.Column(db.Integer)
+    away_team_score_prediction = db.Column(db.Integer)
+    day_of_week = db.Column(db.Integer)
+    month = db.Column(db.Integer)
+    weekly_round = db.Column(db.Integer)
 
 
 class CurrentWeekLeagueStandings(db.Model):
@@ -64,6 +88,7 @@ class TestingData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     home = db.Column(db.Integer)
     away = db.Column(db.Integer)
+    date_and_time = db.Column(db.String(50))
     home_win_probability = db.Column(db.Float)
     draw_probability = db.Column(db.Float)
     away_win_probability = db.Column(db.Float)
@@ -113,6 +138,7 @@ class TrainingData(db.Model):
     odds = db.Column(db.Float)
     full_time_score = db.Column(db.String(100))
     score_at_halftime = db.Column(db.String(100))
+    date_and_time = db.Column(db.String(50))
     date = db.Column(db.DateTime)
     time = db.Column(db.Time)
     home_team_score_prediction = db.Column(db.Integer)
@@ -145,23 +171,3 @@ class TrainingData(db.Model):
     away_team_points = db.Column(db.Integer)
 
 
-class UpcomingMatches(db.Model):
-    __tablename__ = 'upcoming_matches'
-    id = db.Column(db.Integer, primary_key=True)
-    home = db.Column(db.Integer)
-    away = db.Column(db.Integer)
-    home_win_probability = db.Column(db.Float)
-    draw_probability = db.Column(db.Float)
-    away_win_probability = db.Column(db.Float)
-    team_to_win_prediction = db.Column(db.Integer)
-    scoreline_prediction = db.Column(db.String(100))
-    average_goals_prediction = db.Column(db.Float)
-    weather_in_degrees = db.Column(db.String(50))
-    odds = db.Column(db.Float)
-    date = db.Column(db.DateTime)
-    time = db.Column(db.Time)
-    home_team_score_prediction = db.Column(db.Integer)
-    away_team_score_prediction = db.Column(db.Integer)
-    day_of_week = db.Column(db.Integer)
-    month = db.Column(db.Integer)
-    weekly_round = db.Column(db.Integer)
