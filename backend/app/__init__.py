@@ -6,6 +6,7 @@ from app.routes import admin_bp
 from app.routes import standings_bp
 from app.routes import matches_bp
 
+
 def create_app(class_config = Config):
     app = Flask(__name__)
     app.config.from_object(class_config)
