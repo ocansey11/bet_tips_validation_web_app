@@ -55,49 +55,22 @@ def format_data(upcoming_matches):
 
     upcoming_matches = [replace_upcoming_matches(match) for match in upcoming_matches]
     upcoming_matches_split = [match.split('\n') for match in upcoming_matches]
-    df_columns_upcoming_matches = ['', 'home', 'away', 'date and time', 'home_win_probability', 'draw_probability', 'away_team_win_probability', 'team_to_win_prediction', 'scoreline_prediction', 'average_goals_prediction', 'weather_in_degrees', 'odds', "kelly_criterion"]
+    df_columns_upcoming_matches = ['', 'home', 'away', 'date_and_time', 'home_win_probability', 'draw_probability', 'away_team_win_probability', 'team_to_win_prediction', 'scoreline_prediction', 'average_goals_prediction', 'weather_in_degrees', 'odds', "kelly_criterion"]
     df_upcoming_matches = pd.DataFrame(upcoming_matches_split, columns=df_columns_upcoming_matches)
     df_upcoming_matches = df_upcoming_matches.drop(columns=[''])
     return df_upcoming_matches
 
 # PROCESSING DATA AND FEATURE ENGINEERING
-def preprocess_data(df_upcoming_matches, um_weekly_round):
+def preprocess_data(df_upcoming_matches, um_weekly_round,team_labels):
     logging.info("Preprocessing match data.")
-    team_labels = {
-        'Arsenal': 1,
-        'Aston Villa': 2,
-        'Bournemouth': 3,
-        'Brighton': 4,
-        'Burnley': 5,
-        'Chelsea': 6,
-        'Crystal Palace': 7,
-        'Everton': 8,
-        'Fulham': 9,
-        'Ipswich Town':10,
-        'Leeds United': 11,
-        'Leicester City': 12,
-        'Liverpool': 13,
-        'Manchester City': 14,
-        'Manchester United': 15,
-        'Newcastle United': 16,
-        'Norwich City': 17,
-        'Sheffield United': 18,
-        'Southampton': 19,
-        'Tottenham': 20,
-        'West Ham': 21,
-        'Luton Town': 22,
-        'Wolverhampton': 23,
-        'Brentford': 24,
-        'Sheffield United': 25,
-        'Nottingham Forest': 26
-    }
+    
     def team_to_label(team_name):
         return team_labels.get(team_name)
 
     df_upcoming_matches['home'] = df_upcoming_matches['home'].map(team_to_label)
     df_upcoming_matches['away'] = df_upcoming_matches['away'].map(team_to_label)
     df_upcoming_matches[['date', 'time']] = df_upcoming_matches['date_and_time'].str.split(' ', expand=True)
-    # df_upcoming_matches.drop(columns=['date and time'], inplace=True)
+    # df_upcoming_matches.drop(columns=['date_and_time'], inplace=True)
     df_upcoming_matches[['home_team_score_prediction', 'away_team_score_prediction']] = df_upcoming_matches['scoreline_prediction'].str.split('-', expand=True)
     df_upcoming_matches['home_team_score_prediction'] = df_upcoming_matches['home_team_score_prediction'].astype(int)
     df_upcoming_matches['away_team_score_prediction'] = df_upcoming_matches['away_team_score_prediction'].astype(int)
@@ -124,14 +97,14 @@ def save_to_database(df_upcoming_matches, user, password, host, port, dbname):
 
 
 # MAIN SCRAPER
-def main(url, className, user, password, host, port, dbname):
+def main(url, className, user, password, host, port, dbname,team_labels):
     driver = setup_chrome_driver()
     try:
         fixtures_container = scrape_upcoming_matches(driver, url, className)
         um_weekly_round, epl_matches = extract_metadata(fixtures_container)
         upcoming_matches = clean_data(epl_matches)
         df_upcoming_matches = format_data(upcoming_matches)
-        df_upcoming_matches = preprocess_data(df_upcoming_matches, um_weekly_round)
+        df_upcoming_matches = preprocess_data(df_upcoming_matches, um_weekly_round,team_labels)
         save_to_database(df_upcoming_matches, user, password, host, port, dbname)
     except Exception as e:
         logging.error(f"An error occurred: {e}")

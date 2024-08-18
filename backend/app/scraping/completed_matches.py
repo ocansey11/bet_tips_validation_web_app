@@ -35,7 +35,9 @@ def clean_and_process_data(fixtures_container):
     logging.info("Starting data cleaning and processing.")
     
     matches_data_cleaned_step_1 = [match.split("\nEPL") for match in fixtures_container]
+    
     epl_matches = matches_data_cleaned_step_1[0]
+    logging.debug("Console log the epls matches", epl_matches)
 
     # Extract weekly round from the first match's information
     cm_weekly_round = int(epl_matches[0].split(' ')[1]) 
@@ -67,38 +69,10 @@ def clean_and_process_data(fixtures_container):
 
 
 # FEATURE ENGINEERING AND DATA PROCESSING
-def prepare_data_for_modeling(df_completed_matches,cm_weekly_round):
+def prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels):
     """Prepares data for modeling."""
     logging.info("Preparing data for modeling.")
     
-    team_labels = {
-        'Arsenal': 1,
-        'Aston Villa': 2,
-        'Bournemouth': 3,
-        'Brighton': 4,
-        'Burnley': 5,
-        'Chelsea': 6,
-        'Crystal Palace': 7,
-        'Everton': 8,
-        'Fulham': 9,
-        'Ipswich Town':10,
-        'Leeds United': 11,
-        'Leicester City': 12,
-        'Liverpool': 13,
-        'Manchester City': 14,
-        'Manchester United': 15,
-        'Newcastle United': 16,
-        'Norwich City': 17,
-        'Sheffield United': 18,
-        'Southampton': 19,
-        'Tottenham': 20,
-        'West Ham': 21,
-        'Luton Town': 22,
-        'Wolverhampton': 23,
-        'Brentford': 24,
-        'Sheffield United': 25,
-        'Nottingham Forest': 26
-    }
 
     def team_to_label(team_name):
         return team_labels.get(team_name)
@@ -180,16 +154,16 @@ def insert_data_into_database(df_completed_matches, db_url):
     """Inserts the cleaned data into the database."""
     logging.info("Inserting data into the database.")
     engine = create_engine(db_url)
-    df_completed_matches.to_sql('completed_matches', con=engine, if_exists='append', index=False)
+    df_completed_matches.to_sql('completed_matches', con=engine, if_exists='replace', index=False)
     logging.info("Data insertion completed.")
 
 
 # MAIN SCRAPPER
-def main(url, className, user, password, host, port, dbname):
+def main(url, className, user, password, host, port, dbname,team_labels):
     driver = setup_chrome_driver()
     fixtures_container = scrape_forebet_predictions(driver, url, className)
     df_completed_matches, cm_weekly_round = clean_and_process_data(fixtures_container)
-    df_completed_matches = prepare_data_for_modeling(df_completed_matches,cm_weekly_round)
+    df_completed_matches = prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels)
     db_url = f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}'  
     insert_data_into_database(df_completed_matches, db_url)
 
