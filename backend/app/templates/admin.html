@@ -29,5 +29,18 @@
     <form action="{{ url_for('admin.create_tables') }}" method="get">
       <button type="submit">Create Tables</button>
     </form>
+
+    {% if season_start %}
+    <p>Click the button below to create all database tables.</p>
+    <form
+      action="{{ url_for('standings.create_initial_table') }}"
+      method="post"
+    >
+      <button type="submit">
+        Its the beginning of the season Set the League standings
+      </button>
+    </form>
+
+    {% endif %}
   </body>
 </html>
