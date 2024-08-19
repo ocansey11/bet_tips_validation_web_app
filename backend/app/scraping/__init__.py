@@ -15,8 +15,8 @@ port = 3306
 dbname = "bet_tips_validation_web_app"
 
 # DATABASE VARIABLES FOR STANDINGS
-pls_table_name = "current_week_league_standings"
-cls_table_name = "previous_week_league_standings"
+cls_table_name = "current_week_league_standings"
+pls_table_name = "previous_week_league_standings"
 
 
 # TEAM LABELS
@@ -49,8 +49,6 @@ team_labels_forebet = {
         'Nottingham Forest': 26
     }
 
-
-
 team_labels_sofascore = {
         'Arsenal': 1,
         'Aston Villa': 2,
@@ -79,3 +77,12 @@ team_labels_sofascore = {
         'Sheffield Utd': 25,
         'Forest': 26
     }
+
+# Team List 2024/2025 Premier League Season
+teams_list = [
+    "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley",
+    "Chelsea", "Cristal Palace", "Everton", "Fulham", "Ipswich", "Leicester City",
+    "Liverpool", "Man City", "Man Utd", "Newcastle", "Southampton", "Tottenham",
+    "West Ham", "Wolves"
+    ]
+season_start = False

@@ -1,3 +1,5 @@
+# scraping/completed_standings.py
+# Import Libraries and extras
 import logging
 from selenium import webdriver
 import pandas as pd  # type: ignore
@@ -161,11 +163,14 @@ def insert_data_into_database(df_completed_matches, db_url):
 # MAIN SCRAPPER
 def main(url, className, user, password, host, port, dbname,team_labels):
     driver = setup_chrome_driver()
-    fixtures_container = scrape_forebet_predictions(driver, url, className)
-    df_completed_matches, cm_weekly_round = clean_and_process_data(fixtures_container)
-    df_completed_matches = prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels)
-    db_url = f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}'  
-    insert_data_into_database(df_completed_matches, db_url)
+    try:
+        fixtures_container = scrape_forebet_predictions(driver, url, className)
+        df_completed_matches, cm_weekly_round = clean_and_process_data(fixtures_container)
+        df_completed_matches = prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels)
+        db_url = f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}'  
+        insert_data_into_database(df_completed_matches, db_url)
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()
