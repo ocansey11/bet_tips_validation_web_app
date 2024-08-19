@@ -14,7 +14,7 @@ standings_bp = Blueprint('standings', __name__)
 def previous():
     try:
         standings_scrapper(pls_table_name,url_sofascore,sofascore_className, user,password,host,port,dbname,team_labels_sofascore )
-        return jsonify({'message': 'Scraping completed and data stored successfully'}), 200
+        return redirect(url_for('admin.admin_home')) 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -23,7 +23,7 @@ def previous():
 def current():
     try:
         standings_scrapper(cls_table_name,url_sofascore,sofascore_className,user,password,host,port,dbname,team_labels_sofascore)
-        return jsonify({'message': 'Scraping completed and data stored successfully'}), 200
+        return redirect(url_for('admin.admin_home')) 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -33,7 +33,7 @@ def current():
 def create_initial_table():
     try:
         # Sort and prepare the initial data
-        teams_list.sort()
+        # teams_list.sort()
         initial_data = pd.DataFrame([{'team': team, 'pld': 0, 'wins': 0, 'draws': 0, 'losses': 0, 'gf': 0, 'ga': 0, 'last_5_matches': None, 'ppg_last_5_Matches': 0, 'points': 0} for team in teams_list])    
 
         ##### NOTE : I need to change this part. I am creating too many engines within the app. I have several engines within the scraping directory for all the various scrappers (main)

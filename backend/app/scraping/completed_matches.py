@@ -76,6 +76,7 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels):
     logging.info("Preparing data for modeling.")
     
 
+    
     def team_to_label(team_name):
         return team_labels.get(team_name)
 
