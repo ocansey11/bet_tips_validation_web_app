@@ -64,6 +64,7 @@ class CurrentWeekLeagueStandings(db.Model):
     losses = db.Column(db.Integer)
     gf = db.Column(db.Integer)
     ga = db.Column(db.Integer)
+    last_5_matches = db.Column(db.String(6))
     ppg_last_5_matches = db.Column(db.Float)
     points = db.Column(db.Integer)
 
@@ -79,6 +80,7 @@ class PreviousWeekLeagueStandings(db.Model):
     losses = db.Column(db.Integer)
     gf = db.Column(db.Integer)
     ga = db.Column(db.Integer)
+    last_5_matches = db.Column(db.String(6))
     ppg_last_5_matches = db.Column(db.Float)
     points = db.Column(db.Integer)
 
