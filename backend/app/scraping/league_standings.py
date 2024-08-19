@@ -65,14 +65,15 @@ def calculate_ppg_and_create_last_5_matches(data_array, slice_length):
     logging.info("Calculating Points Per Game")
     for row in data_array:
         ppg = 0
-        last_column = slice_length
-        for result in row[7:last_column]:
+        for result in row[7:slice_length]:
             if result == 'W':
                 ppg += 3
             elif result == 'D':
                 ppg += 1
-        last_5_matches = ''.join(row[8:13])
-        row[8:13] = [last_5_matches, ppg / 5]
+            elif result == 'L':
+                ppg += 0
+        last_5_matches = ''.join(row[8:slice_length])
+        row[8:slice_length] = [last_5_matches, ppg / 5]
     
     logging.info("Points Per Game calculated")
     return data_array
