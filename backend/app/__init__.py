@@ -5,6 +5,7 @@ from app.utils import db, migrate
 from app.routes import admin_bp
 from app.routes import standings_bp
 from app.routes import matches_bp
+from app.routes import training_bp
 
 
 def create_app(class_config = Config):
@@ -17,6 +18,6 @@ def create_app(class_config = Config):
     app.register_blueprint(admin_bp)
     app.register_blueprint(standings_bp)
     app.register_blueprint(matches_bp)
-
-
+    app.register_blueprint(training_bp)
+    
     return app
