@@ -1,7 +1,7 @@
 # routes/standings.py
 # Import Libraries and objects
 from flask import Blueprint, jsonify,  redirect, url_for # type: ignore
-from app.scraping import standings_scrapper, teams_list, cls_table_name, pls_table_name, url_sofascore,sofascore_className, user,password,host,port,dbname, team_labels_sofascore 
+from app.scraping import standings_scrapper, weekly_round, teams_list, cls_table_name, pls_table_name, url_sofascore,sofascore_className, user,password,host,port,dbname, team_labels_sofascore 
 from sqlalchemy import create_engine
 import pandas as pd # type: ignore
 
@@ -13,7 +13,7 @@ standings_bp = Blueprint('standings', __name__)
 @standings_bp.route('/previous', methods=['GET'])
 def previous():
     try:
-        standings_scrapper(pls_table_name,url_sofascore,sofascore_className, user,password,host,port,dbname,team_labels_sofascore )
+        standings_scrapper(pls_table_name,url_sofascore,sofascore_className, user,password,host,port,dbname,team_labels_sofascore,weekly_round )
         return redirect(url_for('admin.admin_home')) 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -22,7 +22,7 @@ def previous():
 @standings_bp.route('/current', methods=['GET'])
 def current():
     try:
-        standings_scrapper(cls_table_name,url_sofascore,sofascore_className,user,password,host,port,dbname,team_labels_sofascore)
+        standings_scrapper(cls_table_name,url_sofascore,sofascore_className,user,password,host,port,dbname,team_labels_sofascore,weekly_round)
         return redirect(url_for('admin.admin_home')) 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
