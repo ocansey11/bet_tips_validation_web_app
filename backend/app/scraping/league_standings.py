@@ -20,10 +20,12 @@ def setup_driver():
 # SCRAPING DATA
 def extract_league_table(driver, url, className):
     """Scrapes data from SWofascore's prediction page for either pls or cls(previous|current league standings)."""
-    logging.info(f"Accessing Forebet predictions page: {url}")
+    logging.info(f"Accessing Sofascore page: {url}")
     driver.get(url)
     driver.set_window_size(1920, 1080)
-    # driver.maximize_window()  
+    # Minimize the window
+    # driver.minimize_window()
+
     league_table_results = driver.find_elements("class name", className)
     league_table_results_container = []
 
@@ -35,13 +37,13 @@ def extract_league_table(driver, url, className):
     return league_table_results_container
 
 # Function to process the raw data
-def process_data(data):
+def process_data(data,weekly_round):
     """Cleans and processes scraped data."""
     logging.info("Starting data cleaning and processing.")
     data_copy_split = data.split('\n')[1:] 
 
     # If the weekly round is less than 5. the last_5_matches column wont be very useful
-    weekly_round = 1  # Update this value as needed for now its hard coded.
+    # weekly_round = 1  # Update this value as needed for now its hard coded.
 
     # Calculate the slice length based on weekly_round. `points` is considered so ill add +1 for slice length
     slice_length = 7 + min(weekly_round, 5) + 1 
@@ -94,12 +96,12 @@ def create_dataframe(data_array, columns, team_labels,slice_length):
     return df
 
 # MAIN SCRAPPER
-def main( table_name,url,className, user,password,host,port,dbname,team_labels):
+def main(table_name,url,className, user,password,host,port,dbname,team_labels,weekly_round):
     driver = setup_driver()
     try:
         league_table_data = extract_league_table(driver, url, className)
         data = league_table_data[0][43:]  # The values before 43 represent the table info. column names etc from sofascore
-        processed_data, slice_length = process_data(data)
+        processed_data, slice_length = process_data(data,weekly_round)
         premier_league_columns = ['pos', 'team', 'pld', 'wins', 'draws', 'losses', 'gf', 'ga', 'last_5_matches', 'ppg_last_5_Matches', 'points']
         premier_league_table = create_dataframe(processed_data, premier_league_columns, team_labels,slice_length)
         engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}')

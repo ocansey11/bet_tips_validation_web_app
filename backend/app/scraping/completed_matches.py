@@ -5,7 +5,6 @@ from selenium import webdriver
 import pandas as pd  # type: ignore
 from sqlalchemy import create_engine
 import re
-from sklearn.preprocessing import LabelEncoder  #type: ignore
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -16,6 +15,7 @@ def setup_chrome_driver():
     """Sets up the Chrome WebDriver."""
     logging.info("Setting up the Chrome WebDriver.")
     driver = webdriver.Chrome()
+    driver.set_window_size(1920, 1080)
     return driver
 
 # SCRAPING DATA
@@ -39,7 +39,6 @@ def clean_and_process_data(fixtures_container):
     matches_data_cleaned_step_1 = [match.split("\nEPL") for match in fixtures_container]
     
     epl_matches = matches_data_cleaned_step_1[0]
-    logging.debug("Console log the epls matches", epl_matches)
 
     # Extract weekly round from the first match's information
     cm_weekly_round = int(epl_matches[0].split(' ')[1]) 
@@ -84,10 +83,9 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels):
     df_completed_matches['away'] = df_completed_matches['away'].map(team_to_label)
 
     df_completed_matches[['date', 'time']] = df_completed_matches['date_and_time'].str.split(' ', expand=True)
-    # df_completed_matches.drop(columns=['date and time'], inplace=True)
 
     df_completed_matches[['home_team_score_prediction', 'away_team_score_prediction']] = \
-        df_completed_matches['scoreline_prediction'].str.split('-', expand=True).astype(int)
+    df_completed_matches['scoreline_prediction'].str.split('-', expand=True).astype(int)
     df_completed_matches.drop(columns=['scoreline_prediction'], inplace=True)
 
     df_completed_matches[['home_team_full_time_score', 'away_team_full_time_score']] = \
@@ -142,11 +140,12 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels):
     df_completed_matches['day_of_week'] = df_completed_matches['date'].dt.dayofweek
     df_completed_matches['month'] = df_completed_matches['date'].dt.month
     df_completed_matches['weekly_round'] = cm_weekly_round
-    # Initialize LabelEncoder
-    label_encoder = LabelEncoder()
+    
 
-    # Encode the 'Team to win(prediction)' column
-    df_completed_matches['team_to_win_prediction'] = label_encoder.fit_transform(df_completed_matches['team_to_win_prediction'])
+    # Custom label mapping
+    label_mapping = {'X': 0, '1': 1, '2': 2}
+    df_completed_matches['team_to_win_prediction'] = df_completed_matches['team_to_win_prediction'].map(label_mapping)
+    logging.info("Custom label encoding for 'team_to_win_prediction' completed.")
 
     logging.info("Data preparation for modeling completed.")
     return df_completed_matches

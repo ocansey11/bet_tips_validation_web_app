@@ -6,6 +6,7 @@ url_sofascore = 'https://www.sofascore.com/tournament/football/england/premier-l
 # CLASSNAMES
 sofascore_className = "eHXJll"
 forebet_className = "schema"
+weekly_round = 2
 
 # DB INFO
 user = "test_user"
@@ -13,6 +14,7 @@ password = "password"
 host = "localhost"
 port = 3306
 dbname = "bet_tips_validation_web_app"
+
 
 # DATABASE VARIABLES FOR STANDINGS
 cls_table_name = "current_week_league_standings"

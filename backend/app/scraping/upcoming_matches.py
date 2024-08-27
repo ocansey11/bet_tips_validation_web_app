@@ -1,9 +1,9 @@
 import logging
 from selenium import webdriver
-from sklearn.preprocessing import LabelEncoder  # type: ignore
 from sqlalchemy import create_engine
 import pandas as pd  # type: ignore
 import re
+import numpy as np #type:ignore
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -19,6 +19,8 @@ def setup_chrome_driver():
 def scrape_upcoming_matches(driver, url, className):
     logging.info(f"Scraping upcoming matches from {url} with class name '{className}'.")
     driver.get(url)
+    driver.set_window_size(1920, 1080)
+
     match_fixture_containers = driver.find_elements("class name", className)
     fixtures_container = [fixture.text for fixture in match_fixture_containers]
 
@@ -55,7 +57,7 @@ def format_data(upcoming_matches):
 
     upcoming_matches = [replace_upcoming_matches(match) for match in upcoming_matches]
     upcoming_matches_split = [match.split('\n') for match in upcoming_matches]
-    df_columns_upcoming_matches = ['', 'home', 'away', 'date_and_time', 'home_win_probability', 'draw_probability', 'away_team_win_probability', 'team_to_win_prediction', 'scoreline_prediction', 'average_goals_prediction', 'weather_in_degrees', 'odds', "kelly_criterion"]
+    df_columns_upcoming_matches = ['', 'home', 'away', 'date_and_time', 'home_win_probability', 'draw_probability', 'away_win_probability', 'team_to_win_prediction', 'scoreline_prediction', 'average_goals_prediction', 'weather_in_degrees', 'odds', "kelly_criterion"]
     df_upcoming_matches = pd.DataFrame(upcoming_matches_split, columns=df_columns_upcoming_matches)
     df_upcoming_matches = df_upcoming_matches.drop(columns=[''])
     return df_upcoming_matches
@@ -63,6 +65,8 @@ def format_data(upcoming_matches):
 # PROCESSING DATA AND FEATURE ENGINEERING
 def preprocess_data(df_upcoming_matches, um_weekly_round,team_labels):
     logging.info("Preprocessing match data.")
+    logging.debug(df_upcoming_matches["odds"])
+   
     
     def team_to_label(team_name):
         return team_labels.get(team_name)
@@ -78,19 +82,41 @@ def preprocess_data(df_upcoming_matches, um_weekly_round,team_labels):
     df_upcoming_matches['draw_probability'] = df_upcoming_matches['draw_probability'].astype(float)
     df_upcoming_matches['away_win_probability'] = df_upcoming_matches['away_win_probability'].astype(float)
     df_upcoming_matches['average_goals_prediction'] = df_upcoming_matches['average_goals_prediction'].astype(float)
-    df_upcoming_matches['odds'] = df_upcoming_matches['odds'].astype(float)
+
+
+    # i had errors here, so im using try block to handle it. Over time, other problems will create more nans as the errors become to specific
+    try:
+     df_upcoming_matches['odds'] = df_upcoming_matches['odds'].astype(float)
+    except ValueError as e:
+        # Handle the specific error (e.g., log it, skip problematic rows, set default values)
+        print(f"Error converting 'odds' column: {e}")
+        # Option 1: Set problematic values to NaN or a default value
+        df_upcoming_matches['odds'] = df_upcoming_matches['odds'].apply(lambda x: float(x[:4]) if isinstance(x, str) and len(x) > 4 and x[:4].replace('.', '', 1).isdigit() else float(x) if isinstance(x, str) and x.replace('.', '', 1).isdigit() else np.nan)
+
+    
+    # df_upcoming_matches['odds'] = df_upcoming_matches['odds'].astype(float)
     df_upcoming_matches.drop(columns=['kelly_criterion'], inplace=True)
+
+
     df_upcoming_matches['date'] = pd.to_datetime(df_upcoming_matches['date'], format='%d/%m/%Y')
     df_upcoming_matches['day_of_week'] = df_upcoming_matches['date'].dt.dayofweek
     df_upcoming_matches['month'] = df_upcoming_matches['date'].dt.month
     df_upcoming_matches['weekly_round'] = um_weekly_round
-    label_encoder = LabelEncoder()
-    df_upcoming_matches['team_to_win_prediction'] = label_encoder.fit_transform(df_upcoming_matches['team_to_win_prediction'])
+
+    # Custom label mapping
+    label_mapping = {'X': 0, '1': 1, '2': 2}
+    df_upcoming_matches['team_to_win_prediction'] = df_upcoming_matches['team_to_win_prediction'].map(label_mapping)
+
+    logging.info("Custom label encoding for 'team_to_win_prediction' completed.")
+    logging.info("Data preparation for modeling completed.")
+
+
     return df_upcoming_matches
 
 
 # SAVE TO DATABASE
 def save_to_database(df_upcoming_matches, user, password, host, port, dbname):
+
     logging.info("Saving data to the database.")
     engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}')
     df_upcoming_matches.to_sql('upcoming_matches', con=engine, if_exists='replace', index=False)
