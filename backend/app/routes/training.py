@@ -1,7 +1,7 @@
 # routes/matches.py (completed & upcoming)
 from flask import Blueprint, jsonify, render_template, redirect, url_for # type: ignore
 from app.processing import merge_tables
-from app.utils import get_mysql_engine, execute_sql, CREATE_VIEW_TRAIN_DATA, INSERT_VIEW_TRAIN_DATA
+from app.utils import get_mysql_engine, execute_sql, CREATE_VIEW_TRAIN_DATA, INSERT_VIEW_TRAIN_DATA,DROP_VIEW_COMBINED_TRAIN_DATA
 from app.scraping import user,password,host,port,dbname
 from app.utils import db
 
@@ -13,7 +13,7 @@ training_bp = Blueprint('training', __name__)
 @training_bp.route('/training', methods=['GET'])
 def training():
     try:
-        merge_tables( user, password, host, port, dbname, CREATE_VIEW_TRAIN_DATA,INSERT_VIEW_TRAIN_DATA, get_engine=get_mysql_engine, execute_engine=execute_sql)
+        merge_tables( user, password, host, port, dbname, DROP_VIEW_COMBINED_TRAIN_DATA, CREATE_VIEW_TRAIN_DATA,INSERT_VIEW_TRAIN_DATA, get_engine=get_mysql_engine, execute_engine=execute_sql)
         return redirect(url_for('admin.admin_home'))
     except Exception as e:
         # Handle exceptions
