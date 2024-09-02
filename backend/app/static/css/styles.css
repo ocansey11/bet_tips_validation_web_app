@@ -1,0 +1,396 @@
+/* problems with css 
+multiple codes overlap
+try and use grids
+try and use % for heights and widths for main boxes
+so many things were not needed
+use rem and em instead of px for padding an dmargin
+
+
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+form {
+  padding: 0.3rem;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 19% 79%;
+  grid-template-areas:
+    "sidebar  main_content"
+    "sidebar  main_content"
+    "sidebar  main_content";
+  gap: 2%;
+  height: 100vh;
+  width: 100vw;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.main-content {
+  grid-area: main_content;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  /* transition: transform 0.3s ease;
+  transform: translateX(0); Show sidebar by default */
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+  position: relative;
+}
+
+.sidebar .nav-btn {
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  background-color: #444;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sidebar .nav-btn i {
+  margin-right: 10px;
+}
+
+.sidebar .nav-btn:hover,
+.dropdown-btn:hover {
+  background-color: #555;
+}
+
+.sidebar .dropdown-content {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #444;
+  min-width: 200px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .dropdown-content li {
+  margin: 0;
+}
+
+.sidebar .dropdown-content .table-btn i {
+  margin-right: 10px;
+}
+
+.sidebar .dropdown-content .table-btn:hover {
+  background-color: #007bff;
+}
+
+.sidebar .dropdown:hover .dropdown-content,
+.dropdown .dropdown-btn:focus + .dropdown-content {
+  display: block;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%); /* Hide sidebar off-screen */
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+  position: relative;
+}
+
+.sidebar .nav-btn {
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  background-color: #444;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sidebar .nav-btn:hover,
+.dropdown-btn:hover {
+  background-color: #555;
+}
+
+.sidebar .dropdown-content {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #444;
+  min-width: 200px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .dropdown-content .table-btn {
+  padding: 0.5rem;
+  width: 100%;
+  color: white;
+  background-color: #444;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .dropdown-content li {
+  margin: 0;
+}
+
+.sidebar .dropdown-content .table-btn {
+  padding: 0.5rem;
+  width: 100%;
+  color: white;
+  background-color: #444;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .dropdown-content .table-btn i {
+  margin-right: 10px;
+}
+
+.sidebar .dropdown-content .table-btn:hover {
+  background-color: #007bff;
+}
+
+.sidebar .dropdown:hover .dropdown-content,
+.dropdown .dropdown-btn:focus + .dropdown-content {
+  display: block;
+}
+
+/* MAIN CONTENT */
+
+.main-content {
+  padding: 1rem;
+}
+
+/* TOP SECTION */
+.dashboard {
+  flex: 0 0 30%;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.dashboard {
+  flex: 0 0 30%;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 0.5rem;
+}
+
+/* SEARCH BUTTON  */
+
+.search-bar {
+  flex: 0 0 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+  gap: 10px;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  width: 60%;
+  max-width: 600px;
+}
+
+.search-bar .update-btn,
+.search-bar .delete-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar .update-btn {
+  background-color: #007bff;
+}
+
+.search-bar .update-btn:hover {
+  background-color: #0056b3;
+}
+
+.search-bar .delete-btn {
+  background-color: #dc3545;
+}
+
+.search-bar .delete-btn:hover {
+  background-color: #c82333;
+}
+
+.search-bar {
+  flex: 0 0 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1px;
+  width: 100%;
+  gap: 10px;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  width: 60%;
+  max-width: 600px;
+}
+
+.search-bar .update-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar .update-btn:hover {
+  background-color: #0056b3;
+}
+
+.search-bar .delete-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #dc3545; /* Red color */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar .delete-btn:hover {
+  background-color: #c82333; /* Darker red */
+}
+
+/* TABLE SECTION */
+.table-section {
+  flex: 1;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f0f0f0;
+}
+
+table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+table th {
+  background-color: #f0f0f0;
+}
+
+table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+.table-section {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* i removed `a body {` here before font family. still not sure what it was for  */
+table th,
+table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* MEDIA QUERIES */
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    transform: translateX(0); /* Show sidebar */
+  }
+
+  .main-content {
+    margin-left: 0; /* Remove margin when sidebar is at the top */
+  }
+
+  .sidebar.hidden {
+    display: none; /* Hide sidebar when "hidden" class is added */
+  }
+
+  .sidebar .nav-btn {
+    text-align: center;
+  }
+
+  .sidebar .dropdown-content {
+    position: static;
+    background-color: #444;
+    box-shadow: none;
+  }
+}
+/* i removed  ; } here im guessing its for the end of that initial `a body {` */
