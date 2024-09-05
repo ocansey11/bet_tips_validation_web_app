@@ -4,10 +4,7 @@ try and use grids
 try and use % for heights and widths for main boxes
 so many things were not needed
 use rem and em instead of px for padding an dmargin
-
-
 */
-
 * {
   margin: 0;
   padding: 0;
@@ -221,7 +218,6 @@ form {
 }
 
 /* SEARCH BUTTON  */
-
 .search-bar {
   flex: 0 0 10%;
   display: flex;
@@ -316,10 +312,11 @@ form {
 .table-section {
   flex: 1;
   overflow-y: auto;
+  overflow-x: auto; /* Enable horizontal scroll */
 }
 
 table {
-  width: 100%;
+  min-width: 100%; /* Ensures table stretches horizontally */
   border-collapse: collapse;
   background-color: white;
   border-radius: 8px;
