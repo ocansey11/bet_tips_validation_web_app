@@ -102,7 +102,7 @@ def main(table_name,url,className, user,password,host,port,dbname,team_labels,we
         league_table_data = extract_league_table(driver, url, className)
         data = league_table_data[0][43:]  # The values before 43 represent the table info. column names etc from sofascore
         processed_data, slice_length = process_data(data,weekly_round)
-        premier_league_columns = ['pos', 'team', 'pld', 'wins', 'draws', 'losses', 'gf', 'ga', 'last_5_matches', 'ppg_last_5_Matches', 'points']
+        premier_league_columns = ['pos', 'team', 'pld', 'wins', 'draws', 'losses', 'gf', 'ga', 'last_5_matches', 'ppg_last_5_matches', 'points']
         premier_league_table = create_dataframe(processed_data, premier_league_columns, team_labels,slice_length)
         engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}')
         premier_league_table.to_sql(table_name, con=engine, if_exists='replace', index=False)
