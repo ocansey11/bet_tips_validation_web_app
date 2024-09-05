@@ -17,3 +17,5 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://test_user:password@localhost/test_db'
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
+

@@ -6,7 +6,7 @@ url_sofascore = 'https://www.sofascore.com/tournament/football/england/premier-l
 # CLASSNAMES
 sofascore_className = "eHXJll"
 forebet_className = "schema"
-weekly_round = 2
+weekly_round = 3
 
 # DB INFO
 user = "test_user"
@@ -96,4 +96,4 @@ teams_list_labels = [
 
 
 
-season_start = True
+season_start = False

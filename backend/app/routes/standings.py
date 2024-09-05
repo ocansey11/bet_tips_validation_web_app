@@ -28,20 +28,20 @@ def current():
         return jsonify({'error': str(e)}), 500
 
 
-# Have more control over league table data
-@standings_bp.route('/create_league_standings', methods=['POST'])
-def create_initial_table():
-    try:
-        # Sort and prepare the initial data
-        # teams_list.sort()
-        initial_data = pd.DataFrame([{'team': team, 'pld': 0, 'wins': 0, 'draws': 0, 'losses': 0, 'gf': 0, 'ga': 0, 'last_5_matches': None, 'ppg_last_5_Matches': 0, 'points': 0} for team in teams_list])    
+# # Have more control over league table data
+# @standings_bp.route('/create_league_standings', methods=['POST'])
+# def create_initial_table():
+#     try:
+#         # Sort and prepare the initial data
+#         # teams_list.sort()
+#         initial_data = pd.DataFrame([{'team': team, 'pld': 0, 'wins': 0, 'draws': 0, 'losses': 0, 'gf': 0, 'ga': 0, 'last_5_matches': None, 'ppg_last_5_Matches': 0, 'points': 0} for team in teams_list])    
 
-        ##### NOTE : I need to change this part. I am creating too many engines within the app. I have several engines within the scraping directory for all the various scrappers (main)
-        #  Database Connection and Insertion. 
-        engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}')
-        initial_data.to_sql(pls_table_name, con=engine, if_exists='replace', index=False)
+#         ##### NOTE : I need to change this part. I am creating too many engines within the app. I have several engines within the scraping directory for all the various scrappers (main)
+#         #  Database Connection and Insertion. 
+#         engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{dbname}')
+#         initial_data.to_sql(pls_table_name, con=engine, if_exists='replace', index=False)
 
-        # return to /admin
-        return redirect(url_for('admin.admin_home')) 
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500 
+#         # return to /admin
+#         return redirect(url_for('admin.admin_home')) 
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500 

@@ -5,6 +5,9 @@ from selenium import webdriver
 import pandas as pd  # type: ignore
 from sqlalchemy import create_engine
 import re
+from flask import g # type: ignore
+
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -41,7 +44,7 @@ def clean_and_process_data(fixtures_container):
     epl_matches = matches_data_cleaned_step_1[0]
 
     # Extract weekly round from the first match's information
-    cm_weekly_round = int(epl_matches[0].split(' ')[1]) 
+    cm_weekly_round = int(epl_matches[0].split(' ')[1]) - 1
     logging.info(f"Extracted weekly round: {cm_weekly_round}")
 
     completed_matches = [match for match in epl_matches if 'FT' in match]
@@ -155,8 +158,15 @@ def prepare_data_for_modeling(df_completed_matches,cm_weekly_round,team_labels):
 def insert_data_into_database(df_completed_matches, db_url):
     """Inserts the cleaned data into the database."""
     logging.info("Inserting data into the database.")
+    # old way
+    # engine = create_engine(db_url)
+    # df_completed_matches.to_sql('completed_matches', con=engine, if_exists='replace', index=False)
+
     engine = create_engine(db_url)
-    df_completed_matches.to_sql('completed_matches', con=engine, if_exists='replace', index=False)
+    
+    # Using connection directly
+    with engine.connect() as connection:
+        df_completed_matches.to_sql('completed_matches', con=connection, if_exists='replace', index=False)
     logging.info("Data insertion completed.")
 
 

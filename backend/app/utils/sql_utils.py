@@ -11,7 +11,6 @@ def get_mysql_engine(user, password, host, port, database):
         connection_string = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
     else:
         connection_string = f'mysql+pymysql://{user}@{host}:{port}/{database}'
-    
     return create_engine(connection_string)
 
 
@@ -92,40 +91,11 @@ INNER JOIN
 
 # SQL CODES INSERTING NEW DATA THROUGH VIEWS
 INSERT_VIEW_TRAIN_DATA = """ 
-INSERT INTO training_data (
-    home_team_id, away_team_id, date_and_time, home_win_probability, 
-    draw_probability, away_win_probability, team_to_win_prediction, 
-    average_goals_prediction, weather_in_degrees, odds, full_time_score, 
-    score_at_halftime, date, time, home_team_score_prediction, 
-    away_team_score_prediction, home_team_full_time_score, 
-    away_team_full_time_score, home_team_halftime_score, 
-    away_team_halftime_score, prediction_result, day_of_week, 
-    month, weekly_round, home_team_pos, home_team_matches_played, 
-    home_team_wins, home_team_draws, home_team_losses, home_team_gf, 
-    home_team_ga, home_team_ppg_last_5_matches, home_team_points, 
-    away_team_pos, away_team_matches_played, away_team_wins, 
-    away_team_draws, away_team_losses, away_team_gf, away_team_ga, 
-    away_team_ppg_last_5_matches, away_team_points
-)
-SELECT 
-    home_team_id, away_team_id, date_and_time, home_win_probability, 
-    draw_probability, away_win_probability, team_to_win_prediction, 
-    average_goals_prediction, weather_in_degrees, odds, full_time_score, 
-    score_at_halftime, date, time, home_team_score_prediction, 
-    away_team_score_prediction, home_team_full_time_score, 
-    away_team_full_time_score, home_team_halftime_score, 
-    away_team_halftime_score, prediction_result, day_of_week, 
-    month, weekly_round, home_team_pos, home_team_matches_played, 
-    home_team_wins, home_team_draws, home_team_losses, home_team_gf, 
-    home_team_ga, home_team_ppg_last_5_matches, home_team_points, 
-    away_team_pos, away_team_matches_played, away_team_wins, 
-    away_team_draws, away_team_losses, away_team_gf, away_team_ga, 
-    away_team_ppg_last_5_matches, away_team_points
-FROM combined_train_data;
+INSERT INTO training_data SELECT * FROM bet_tips_validation_web_app.combined_train_data;
 """
 
 INSERT_VIEW_TEST_DATA = """ 
-INSERT INTO testing_data SELECT * FROM combined_test_data;
+INSERT INTO testing_data SELECT * FROM bet_tips_validation_web_app.combined_test_data;
 """
 
 # SQL CODES DROPPING THE VIEWS
