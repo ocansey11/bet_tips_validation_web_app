@@ -73,6 +73,8 @@ def preprocess_data(df_upcoming_matches, um_weekly_round,team_labels):
 
     df_upcoming_matches['home'] = df_upcoming_matches['home'].map(team_to_label)
     df_upcoming_matches['away'] = df_upcoming_matches['away'].map(team_to_label)
+    
+    df_upcoming_matches['date_and_time'] = pd.to_datetime(df_upcoming_matches['date_and_time'], format='%d/%m/%Y %H:%M')
     df_upcoming_matches[['date', 'time']] = df_upcoming_matches['date_and_time'].str.split(' ', expand=True)
     # df_upcoming_matches.drop(columns=['date_and_time'], inplace=True)
     df_upcoming_matches[['home_team_score_prediction', 'away_team_score_prediction']] = df_upcoming_matches['scoreline_prediction'].str.split('-', expand=True)
@@ -102,6 +104,11 @@ def preprocess_data(df_upcoming_matches, um_weekly_round,team_labels):
     df_upcoming_matches['day_of_week'] = df_upcoming_matches['date'].dt.dayofweek
     df_upcoming_matches['month'] = df_upcoming_matches['date'].dt.month
     df_upcoming_matches['weekly_round'] = um_weekly_round
+
+    # Next Season Changes
+    # df_upcoming_matches['date_and_time'] = pd.to_datetime(df_upcoming_matches['date_and_time'], format='%d/%m/%Y %H:%M')
+    # # Assuming the 'time' column is in the format '%H:%M' (24-hour clock)
+    # df_upcoming_matches['time'] = pd.to_datetime(df_upcoming_matches['time'], format='%H:%M').dt.time
 
     # Custom label mapping
     label_mapping = {'X': 0, '1': 1, '2': 2}

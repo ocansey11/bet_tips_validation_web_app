@@ -5,6 +5,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd #type:ignore
 from sqlalchemy import create_engine
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -23,8 +27,18 @@ def extract_league_table(driver, url, className):
     logging.info(f"Accessing Sofascore page: {url}")
     driver.get(url)
     driver.set_window_size(1920, 1080)
-    # Minimize the window
-    # driver.minimize_window()
+
+    # In certain parts of the world this wont apply to you, you can comment it out
+    try:
+    # Wait for the consent button to be clickable and click it
+        consent_button = WebDriverWait(driver, 2).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@class='fc-button fc-cta-consent fc-primary-button']//p[text()='Consent']"))
+        )
+        consent_button.click()
+        print("Clicked the consent button!")
+    except Exception as e:
+        print(f"Error: {e}")
+    
 
     league_table_results = driver.find_elements("class name", className)
     league_table_results_container = []
@@ -43,9 +57,8 @@ def process_data(data,weekly_round):
     data_copy_split = data.split('\n')[1:] 
 
     # If the weekly round is less than 5. the last_5_matches column wont be very useful
-    # weekly_round = 1  # Update this value as needed for now its hard coded.
 
-    # Calculate the slice length based on weekly_round. `points` is considered so ill add +1 for slice length
+    # Calculate the slice length based on weekly_round. 
     slice_length = 7 + min(weekly_round, 5) + 1 
 
     # Split the data based on the calculated slice length
