@@ -139,14 +139,16 @@
             <thead>
               <tr>
                 <!-- Dynamically loop through column names and render them as table headers -->
+
                 {% for column in columns %}
-                <th>{{ column }}</th>
+                <th scope="col">{{ column }}</th>
                 {% endfor %}
               </tr>
             </thead>
             <tbody>
               <!-- Loop through data and render table rows -->
               {% for row in data_values %}
+              <!-- put a tr here, and the value will be a numerical value from data_value maybe the index of row -->
               <tr>
                 {% for column in columns %}
                 <td>{{ row[column] }}</td>

@@ -58,6 +58,7 @@ SELECT
     previous_week_league_standings AS a ON cm.away = a.team;
 """
 
+
 CREATE_VIEW_TEST_DATA  = """
 CREATE VIEW combined_test_data AS
 SELECT 

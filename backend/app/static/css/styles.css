@@ -326,8 +326,10 @@ table {
 table th,
 table td {
   padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  text-align: center;
+  border: 1px solid rgb(160 160 160);
+  white-space: nowrap;
+  margin: 0.5rem;
 }
 
 table th {
@@ -348,18 +350,6 @@ table tbody tr:hover {
 .table-section {
   flex: 1;
   overflow-y: auto;
-}
-
-/* i removed `a body {` here before font family. still not sure what it was for  */
-table th,
-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
 }
 
 /* MEDIA QUERIES */

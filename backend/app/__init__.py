@@ -9,10 +9,13 @@ from app.routes import standings_bp
 from app.routes import matches_bp
 from app.routes import training_bp
 from app.routes import tables_bp
+# import logging
 
 
 def create_app(class_config = Config):
     app = Flask(__name__)
+
+    
     app.config.from_object(class_config)
     db.init_app(app)
     migrate.init_app(app, db)
