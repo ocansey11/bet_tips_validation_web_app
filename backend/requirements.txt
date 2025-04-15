@@ -1,9 +1,0 @@
-pymysql
-pandas
-matplotlib
-scikit-learn
-imbalanced-learn
-sqlalchemy
-selenium
-pytest
-flask
