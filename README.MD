@@ -32,12 +32,11 @@
     flask run
     ```
 
-6. **Database Flexibility**  
+
+New features
+- **Database Flexibility**  
     You can switch to a different database as long as you are familiar with its configuration and integration with the application. Currently, there are plans to transition to MongoDB.
 
-7. **AI Integration**  
-    The application will include AI agents to enhance its capabilities, leveraging transfer learning for improved predictions and decision-making.
-
-8. **Project Status**  
-    This application is undergoing reconstruction, with plans to incorporate MongoDB and AI-driven features for enhanced functionality.
+- **AI Integration**  
+    The application will include AI agents to enhance its capabilities, leveraging transfer learning for improved predictions and decision-making
 
